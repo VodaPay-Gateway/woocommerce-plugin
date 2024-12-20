@@ -1,0 +1,41 @@
+<?php return array(
+    'root' => array(
+        'name' => 'vodapay/woocommerce',
+        'pretty_version' => 'dev-develop',
+        'version' => 'dev-develop',
+        'reference' => '3c73393368f9199431a5f37e91fd43faf3fb67f5',
+        'type' => 'composer-plugin',
+        'install_path' => __DIR__ . '/../../',
+        'aliases' => array(),
+        'dev' => true,
+    ),
+    'versions' => array(
+        'megastruktur/phone-country-codes' => array(
+            'pretty_version' => '0.4',
+            'version' => '0.4.0.0',
+            'reference' => '9d396143a73b08c0109053cf0c1cccdf8f78cfc1',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../megastruktur/phone-country-codes',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+        'ngenius/ngenius-common' => array(
+            'pretty_version' => 'v1.1.0',
+            'version' => '1.1.0.0',
+            'reference' => 'cf8b2bb17a62f093ce9b4a48baf0072e9ecd46db',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../ngenius/ngenius-common',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+        'vodapay/woocommerce' => array(
+            'pretty_version' => 'dev-develop',
+            'version' => 'dev-develop',
+            'reference' => '3c73393368f9199431a5f37e91fd43faf3fb67f5',
+            'type' => 'composer-plugin',
+            'install_path' => __DIR__ . '/../../',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+    ),
+);
