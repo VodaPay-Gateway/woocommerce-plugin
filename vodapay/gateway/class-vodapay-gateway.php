@@ -111,13 +111,12 @@ class VodaPayGateway extends VodaPayAbstract
             add_action('woocommerce_order_action_vodapay_capture', array($this, 'vodapay_capture_order_action'), 10, 1);
             add_action('woocommerce_order_action_vodapay_void', array($this, 'vodapay_void_order_action'), 10, 1);
             add_action('woocommerce_order_actions', array($this, 'wc_add_order_meta_box_action'), 1, 2);
-
         }
     }
 
     public function wc_add_order_meta_box_action($actions, $order)
     {
-        $order_item    = $this->fetch_order($order->get_id());
+        $order_item = $this->fetch_order($order->get_id());
 
         if ($order_item && 'vp-authorised' === $order_item->status) {
             $actions['vodapay_capture'] = __('Capture VodaPay Digital Payment Gateway', 'vodapay');
@@ -149,20 +148,20 @@ class VodaPayGateway extends VodaPayAbstract
     public function vodapayAction($order, $vodapay_state): void
     {
         $this->message = '';
-            WC_Admin_Notices::remove_all_notices();
-            $orderID    = $order->get_id();
-            $order_item = $this->fetch_order($orderID);
+        WC_Admin_Notices::remove_all_notices();
+        $orderID    = $order->get_id();
+        $order_item = $this->fetch_order($orderID);
 
-            if ($order_item) {
-                $config      = new VodaPayGatewayConfig($this, $order);
-                $token_class = new VodaPayGatewayRequestToken($config);
+        if ($order_item) {
+            $config      = new VodaPayGatewayConfig($this, $order);
+            $token_class = new VodaPayGatewayRequestToken($config);
 
-                $this->validate_complete($config, $token_class, $order, $order_item, $vodapay_state);
-            } else {
-                $this->message = 'Order #' . $orderID . ' not found.';
-                WC_Admin_Notices::add_custom_notice('vodapay', $this->message);
-            }
-            add_filter('redirect_post_location', array($this, 'add_notice_query_var'), 99);
+            $this->validate_complete($config, $token_class, $order, $order_item, $vodapay_state);
+        } else {
+            $this->message = 'Order #' . $orderID . ' not found.';
+            WC_Admin_Notices::add_custom_notice('vodapay', $this->message);
+        }
+        add_filter('redirect_post_location', array($this, 'add_notice_query_var'), 99);
     }
 
     /**
@@ -204,14 +203,14 @@ class VodaPayGateway extends VodaPayAbstract
             try {
                 $ngAuthorised            = "";
                 $ngAuthorisedAmount      = $currency_code . $order_item->amount;
-                $ngAuthorisedAmountLabel = __('Authorized:', 'woocommerce');
+                $ngAuthorisedAmountLabel = __('Authorized:', 'vodapay');
                 if ('ng-authorised' === $order_item->status) {
-                    $ngAuthorised = <<<HTML
+                    $ngAuthorised = "
                         <tr>
                             <td> $ngAuthorisedAmountLabel </td>
                             <td> $ngAuthorisedAmount </td>
                         </tr>
-HTML;
+";
                 }
                 $refunded = 0;
                 if ('ng-full-refunded' === $order_item->status || 'ng-part-refunded' === $order_item->status ||
@@ -225,7 +224,7 @@ HTML;
                 $ngAuthorised2 = "";
 
                 $orderStatuses  = NgeniusOrderStatuses::orderStatuses('VodaPay', 'vp');
-                $ng_state       = __('Status:', 'woocommerce');
+                $ng_state       = __('Status:', 'vodapay');
                 $ng_state_value = $order->get_status();
 
                 $itemState = $order_item->state;
@@ -235,16 +234,16 @@ HTML;
                     }
                 }
 
-                $ng_payment_id_label = __('Payment_ID:', 'woocommerce');
+                $ng_payment_id_label = __('Payment_ID:', 'vodapay');
                 $ng_payment_id       = $order_item->payment_id;
 
-                $ng_captured_label  = __('Captured:', 'woocommerce');
+                $ng_captured_label  = __('Captured:', 'vodapay');
                 $ng_captured_amount = $currency_code . $order_item->amount;
 
-                $ng_refunded_label  = __('Refunded:', 'woocommerce');
+                $ng_refunded_label  = __('Refunded:', 'vodapay');
                 $ng_refunded_amount = $currency_code . $refunded;
 
-                $html = <<<HTML
+                $html = "
                     <table>
                     <tr>
                         <td> $ng_state </td>
@@ -262,28 +261,28 @@ HTML;
 				    </tr>
 				    $ngAuthorised2
 
-HTML;
+";
                 // Don't display captured line on 'STARTED' and 'AUTHORISED' states
                 if ($itemState != 'STARTED'
                     && $itemState != 'AUTHORISED'
                     && $itemState != 'REVERSED'
                 ) {
-                    $html .= <<<HTML
+                    $html .= "
                     <tr>
                         <td> $ng_captured_label </td>
 				        <td> $ng_captured_amount </td>
                     </tr>
-HTML;
+";
                 }
-                $html .= <<<HTML
+                $html .= '
  </table>
- HTML;
+';
 
                 if ('ng-authorised' === $order_item->status) {
-                    $html .= <<<HTML
+                    $html .= '
  <hr>
  <p style="color: gray;">Void and capture moved to order actions.</p>
- HTML;
+ ';
                 }
 
                 echo wp_kses_post($html);
@@ -433,7 +432,7 @@ HTML;
         global $wpdb;
         global $wp_session;
 
-        $order_id = $order->get_id();
+        $order_id  = $order->get_id();
         $cache_key = 'vodapay_order_' . $order_id;
 
         // Prepare the data to be saved

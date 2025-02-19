@@ -3,7 +3,7 @@
         'name' => 'vodapay/woocommerce',
         'pretty_version' => 'dev-develop',
         'version' => 'dev-develop',
-        'reference' => '3c73393368f9199431a5f37e91fd43faf3fb67f5',
+        'reference' => '60279148e56f24eb8da0a23dc666ba414a9b559f',
         'type' => 'composer-plugin',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -31,7 +31,7 @@
         'vodapay/woocommerce' => array(
             'pretty_version' => 'dev-develop',
             'version' => 'dev-develop',
-            'reference' => '3c73393368f9199431a5f37e91fd43faf3fb67f5',
+            'reference' => '60279148e56f24eb8da0a23dc666ba414a9b559f',
             'type' => 'composer-plugin',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),

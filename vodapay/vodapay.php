@@ -4,17 +4,17 @@
  * Description: Receive payments using the VodaPay Digital Payment Gateway payments provider.
  * Author: VodaPay Digital Payment Gateway
  * Author URI: https://docs.vodapaygateway.vodacom.co.za/
- * Version: 1.1.0
+ * Version: 1.2.0
  * Requires at least: 6.0
  * Requires PHP: 8.0
- * Tested up to: 6.6.2
- * WC tested up to: 9.3.3
+ * Tested up to: 6.7.1
+ * WC tested up to: 9.6.0
  * WC requires at least: 6.0
  *
  * Developer: App Inlet (Pty) Ltd
  * Developer URI: https://www.appinlet.com/
  *
- * Copyright: © 2024 Network International
+ * Copyright: © 2025 Network International
  * License: GNU General Public License v3.0
  * License URI: http://www.gnu.org/licenses/gpl-3.0.html
  * Text Domain: vodapay
@@ -34,7 +34,7 @@ require_once "$f/vendor/autoload.php";
 use Automattic\WooCommerce\Blocks\Payments\PaymentMethodRegistry;
 use Ngenius\NgeniusCommon\NgeniusOrderStatuses;
 
-define('WC_GATEWAY_VODAPAY_VERSION', '1.1.0'); // WRCS: DEFINED_VERSION.
+define('WC_GATEWAY_VODAPAY_VERSION', '1.2.0'); // WRCS: DEFINED_VERSION.
 define(
     'WC_GATEWAY_VODAPAY_URL',
     untrailingslashit(plugins_url(basename(plugin_dir_path(__FILE__)), basename(__FILE__)))
@@ -54,10 +54,11 @@ function register_vodapay_order_status()
                 'show_in_admin_all_list'    => true,
                 'show_in_admin_status_list' => true,
                 'label_count'               => _n_noop(
-                    // phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralSingular
+                // phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralSingular
                     $status['label'] . ' <span class="count">(%s)</span>',
                     // phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralPlural
-                    $status['label'] . ' <span class="count">(%s)</span>'
+                    $status['label'] . ' <span class="count">(%s)</span>',
+                    'vodapay'
                 ),
             )
         );
@@ -70,12 +71,12 @@ add_action('template_redirect', 'vodapay_cancel_order_handler', 10);
 /**
  * Restore Cart if order is canceled
  */
-function vodapay_cancel_order_handler(): void {
+function vodapay_cancel_order_handler(): void
+{
     // Check if the cancel_order parameter is present and valid
     if (isset($_GET['cancel_order'], $_GET['order_id'], $_GET['_wpnonce'])
         && $_GET['cancel_order'] === 'true'
         && wp_verify_nonce($_GET['_wpnonce'], 'woocommerce-cancel_order')) {
-
         // Get the order ID
         $order_id = absint($_GET['order_id']);
 
@@ -157,7 +158,7 @@ function vodapay_plugin_action_links($links)
     $plugin_links = array(
         '<a href="admin.php?page=wc-settings&tab=checkout&section=vodapay">' . esc_html__(
             'Settings',
-            'woocommerce'
+            'vodapay'
         ) . '</a>',
     );
 
