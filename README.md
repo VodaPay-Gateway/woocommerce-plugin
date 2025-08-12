@@ -8,4 +8,4 @@ enabled on your server.
 ## Download
 
 You can download the latest version of the plugin from
-our [Github releases page](https://github.com/VodaPay-Gateway/woocommerce-plugin/releases)
+our [Gitlab releases page](https://gitlab.com/vodapay-gateway/woocommerce-plugin/-/releases)
